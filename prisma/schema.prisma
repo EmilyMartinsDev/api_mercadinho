@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  cod String @id @default(uuid())
+  nome String
+  email String
+  venda Venda[]
+
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+
+model Produto{
+  cod String @id @default(uuid())
+  nome String @unique
+  qt_estoque Int @default(0)
+  vl_produto Float @default(0)
+
+  categoria Categoria @relation(fields: [cod_categoria],references: [cod])
+  cod_categoria String
+  itemVenda ItemVenda[]
+  itemCompra ItemCompra[]
+  fornecedor_produto FornecedorProduto[]
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+  
+}
+model Categoria {
+   cod String @id @default(uuid())
+  nome String
+  produto Produto[]
+
+  data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+
+model Venda{
+cod String @id @default(uuid())
+vl_total Float
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+
+cliente Cliente @relation(fields: [cod_cliente], references: [cod])
+
+cod_cliente String
+itemVenda ItemVenda[]
+
+}
+
+model ItemVenda{
+qt_produto Int
+vl_total_item Float?
+
+venda Venda @relation(fields: [cod_venda], references: [cod])
+produto Produto @relation(fields: [cod_produto], references: [cod])
+
+cod_venda String
+cod_produto String
+
+@@id([cod_venda, cod_produto])
+
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+model Funcionario {
+  cod String @id @default(uuid())
+  nome String
+  email String
+  senha String
+  cargo String 
+
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+model Fornecedor {
+   cod String @id @default(uuid())
+  nome String
+  email String
+  fone String
+
+  compra  Compra[]
+  fornecedor_produto FornecedorProduto[]
+  data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+
+model FornecedorProduto{
+  cod_fornecedor String
+  cod_produto String
+  vl_produto_compra Float 
+  @@id([cod_fornecedor, cod_produto])
+
+  fornecedor Fornecedor @relation(fields: [cod_fornecedor], references: [cod])
+  produto Produto @relation(fields: [cod_produto], references: [cod])
+  
+  data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+
+model ItemCompra{
+qt_produto Int
+vl_total_item Float?
+
+compra Compra @relation(fields: [cod_compra], references: [cod])
+produto Produto @relation(fields: [cod_produto], references: [cod])
+
+cod_compra String
+cod_produto String
+
+@@id([cod_compra, cod_produto])
+
+data_criacao DateTime @default(now())
+data_uptade DateTime @default(now())
+}
+
+model Compra{
+   cod String @id @default(uuid())
+  vl_total Float @default(0)
+  cod_fornecedor String
+  
+  itemCompra ItemCompra[]
+  fornecedor Fornecedor @relation(fields: [cod_fornecedor], references: [cod])
+
+  data_criacao DateTime @default(now())
+  data_uptade DateTime @default(now())
+}
+
