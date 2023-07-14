@@ -9,7 +9,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model Cliente {
   cod String @id @default(uuid())
   nome String
@@ -20,14 +19,32 @@ data_criacao DateTime @default(now())
 data_uptade DateTime @default(now())
 }
 
-model Produto{
+model MarcaCategoria{
+  cod_marca String
+  cod_categoria String
+
+  categoria Categoria @relation(fields: [cod_categoria], references: [cod])
+  marca Marca @relation(fields: [cod_marca], references: [cod])
+
+  @@id([cod_marca, cod_categoria])
+}
+
+model Marca{
   cod String @id @default(uuid())
   nome String @unique
+  produto Produto[]
+  marcaCategoria MarcaCategoria[]
+}
+
+model Produto{
+  cod String @id @default(uuid())
+  nome String 
   qt_estoque Int @default(0)
   vl_produto Float @default(0)
-
+  marca Marca @relation(fields: [cod_marca], references: [cod])
   categoria Categoria @relation(fields: [cod_categoria],references: [cod])
   cod_categoria String
+  cod_marca String
   itemVenda ItemVenda[]
   itemCompra ItemCompra[]
   fornecedor_produto FornecedorProduto[]
@@ -39,6 +56,8 @@ model Categoria {
    cod String @id @default(uuid())
   nome String
   produto Produto[]
+  marcaCategoria MarcaCategoria[]
+
 
   data_criacao DateTime @default(now())
 data_uptade DateTime @default(now())

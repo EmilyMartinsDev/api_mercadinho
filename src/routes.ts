@@ -36,6 +36,9 @@ import { ControleListagemProdutoEstoque } from "./controllers/Produto/ControleLi
 import { ControleExcluirItemVenda } from "./controllers/Venda/ControleExcluirItemVenda";
 import { ControleExcluirVenda } from "./controllers/Venda/ControleExcluirVenda";
 import { ControleReportarRelatorioLucro } from "./controllers/Relatorios/ControleReportarRelatorioLucro";
+import { ControleCadastroMarca } from "./controllers/Marca/ControleCastroMarca";
+import { ControleCadastroCategoriaMarca } from "./controllers/Marca/ControleCadastroCategoriaMarcas";
+import { ControleListarMarcaCategoria } from "./controllers/Marca/ControleListarMarcasPorCategoria";
 
 
 
@@ -52,6 +55,10 @@ router.get("/cliente", estaAutenticado, new ControleListagemCliente().handle)
 router.delete("/cliente", estaAutenticado, new ControleDelecaoCliente().handle)
 router.put("/cliente", estaAutenticado, new ControleEdicaoCliente().handle)
 
+/*rota marca*/
+router.post("/marca", estaAutenticado, usuarioAdministrador, new ControleCadastroMarca().handle) 
+router.post("/marca/categoria", estaAutenticado, usuarioAdministrador, new ControleCadastroCategoriaMarca().handle)
+router.get("/marca/categoria", estaAutenticado, new ControleListarMarcaCategoria().handle)
 /*rotas categoria */
 router.post("/categoria", estaAutenticado, usuarioAdministrador, new ControleCriarCategoria().handle)
 router.get("/categoria", estaAutenticado, usuarioAdministrador, new ControleListagemCategorias().handle)

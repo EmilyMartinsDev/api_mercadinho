@@ -22,7 +22,8 @@ class ServicoCriarCategoria{
 
       const categoria = await prismaClient.categoria.create({
         data:{
-            nome: nome
+            nome: nome,
+           
         }
       });
 

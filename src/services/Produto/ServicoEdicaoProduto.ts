@@ -1,14 +1,14 @@
 import prismaClient from "../../prisma/prismaClient";
 
 type EdicaoProdutoRequest = {
-    cod_categoria: string
+    vl_produto: number
     nome: string
     cod_produto : string
    
 }
 
 class ServicoEdicaoProduto{
-    async execute({cod_categoria, nome, cod_produto}: EdicaoProdutoRequest){
+    async execute({vl_produto, nome, cod_produto}: EdicaoProdutoRequest){
       
       const produto = await prismaClient.produto.update({
         where:{
@@ -16,7 +16,7 @@ class ServicoEdicaoProduto{
         },
         data:{
             nome,
-            cod_categoria: cod_categoria,
+            vl_produto: vl_produto
             
 
         }

@@ -3,12 +3,12 @@ import prismaClient from "../../prisma/prismaClient";
 type CriacaoProdutoRequest = {
     cod_categoria: string
     nome: string
-
+    cod_marca : string
 }
 
 class ServicoCadastroProduto{
-    async execute({cod_categoria, nome}: CriacaoProdutoRequest){
-        if(!cod_categoria || !nome){
+    async execute({cod_categoria, nome, cod_marca}: CriacaoProdutoRequest){
+        if(!cod_categoria || !nome || !cod_marca){
             throw new Error("campos invalidos")
         }
 
@@ -26,6 +26,7 @@ class ServicoCadastroProduto{
         data:{
             nome,
             cod_categoria: cod_categoria,
+            cod_marca: cod_marca
 
         }
       })
