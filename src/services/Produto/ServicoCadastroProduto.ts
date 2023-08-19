@@ -8,7 +8,7 @@ type CriacaoProdutoRequest = {
 
 class ServicoCadastroProduto{
     async execute({cod_categoria, nome, cod_marca}: CriacaoProdutoRequest){
-        if(!cod_categoria || !nome || !cod_marca){
+        if(cod_categoria=='' || nome=='' || cod_marca==''){
             throw new Error("campos invalidos")
         }
 

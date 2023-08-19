@@ -8,13 +8,13 @@ class ControleCadastroUsuario {
         const servicoCadastroUsuario = new ServicoCadastroUsuario()
         const usuario = await servicoCadastroUsuario.execute({
             nome,
-            email,
             senha,
+            email,
             cargo
         })
 
         return res.json(usuario)
     }
-}
+} 
 
-export { ControleCadastroUsuario }
+export { ControleCadastroUsuario }  

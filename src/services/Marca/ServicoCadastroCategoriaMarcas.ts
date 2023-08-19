@@ -4,17 +4,17 @@ import prismaClient from "../../prisma/prismaClient"
 
 type CadastroMarcasParaCategoria ={
     cod_categoria: string
-    cod_marcas: string[]
+    cod_marca: string
 }
 
 
 class ServicoCadastroCategoriaMarcas{
-    async execute({cod_categoria, cod_marcas}: CadastroMarcasParaCategoria){
-        const marcasCategorias = cod_marcas.map(async m=>{
-            await prismaClient.marcaCategoria.create({
+    async execute({cod_categoria, cod_marca}: CadastroMarcasParaCategoria){
+      
+           const marcaCategoria = await prismaClient.marcaCategoria.create({
                 data:{
                     cod_categoria: cod_categoria,
-                    cod_marca: m
+                    cod_marca: cod_marca
                   },
                   include:{
                     categoria: true,
@@ -24,12 +24,8 @@ class ServicoCadastroCategoriaMarcas{
         
                 
             })
-        })
-        const categoria = await prismaClient.categoria.findFirst({
-            where: {cod: cod_categoria},
-            include: { marcaCategoria: true}
-        })
-        return categoria
+            return marcaCategoria
+     
     }
     
 }

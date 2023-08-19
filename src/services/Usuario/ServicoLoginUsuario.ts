@@ -38,8 +38,9 @@ class ServicoLoginUsuario{
         return {
             cod: usuario.cod,
             email: usuario.email,
+            cargo: usuario.cargo,
             nome: usuario.nome,
-            token: token
+            token: token 
         }
     }
 }

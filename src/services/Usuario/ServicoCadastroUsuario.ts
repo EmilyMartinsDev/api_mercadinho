@@ -6,12 +6,12 @@ type Usuario ={
     nome: string
     email: string
     senha: string
-    cargo: enums.cargo.admin | enums.cargo.caixa
+    cargo: string
 }
 
 class ServicoCadastroUsuario{
     async execute({nome, email, senha, cargo}: Usuario){
-        if(!nome || !email || !senha || !cargo){
+        if(nome== '' || email== '' || senha=='' || cargo==''){
             throw new Error("campos invalidos")
         }
         const usuarioJaExiste = await prismaClient.funcionario.findFirst({

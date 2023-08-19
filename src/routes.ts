@@ -22,9 +22,6 @@ import { ControleEdicaoProduto } from "./controllers/Produto/ControleEdicaoProdu
 import { ControleCadastroFornecedor } from "./controllers/Fornecedor/ControleCadastroFornecedor";
 import { ControleListarFornecedor } from "./controllers/Fornecedor/ControleListarFornecedor";
 import { ControleEdicaoFornecedor } from "./controllers/Fornecedor/ControleEdicaoFornecedor";
-import { ControleCadastroProdutosFornecedor } from "./controllers/Fornecedor/ControleCadastroProdutosFornecedor";
-import { ControleListarProdutoFornecedor } from "./controllers/Fornecedor/ControleListarProdutosDoFornecedor";
-import { ControleListarFornecedorProduto } from "./controllers/Produto/ControleListarFornecedorProduto";
 import { ControleRealizarCompra } from "./controllers/Compra/ControleRealizarCompra";
 import { ControleAdicionarItemCompra } from "./controllers/Compra/ControleAdicionarItemCompra";
 import { ControleFinalizarCompra } from "./controllers/Compra/ControleFinalizarCompra";
@@ -39,16 +36,17 @@ import { ControleReportarRelatorioLucro } from "./controllers/Relatorios/Control
 import { ControleCadastroMarca } from "./controllers/Marca/ControleCastroMarca";
 import { ControleCadastroCategoriaMarca } from "./controllers/Marca/ControleCadastroCategoriaMarcas";
 import { ControleListarMarcaCategoria } from "./controllers/Marca/ControleListarMarcasPorCategoria";
+import { ControleUsuario } from "./controllers/Usuario/ControleUsuario";
 
 
 
 const router = Router();
 /*rotas do usuario */
-router.post('/usuario',estaAutenticado, usuarioAdministrador, new ControleCadastroUsuario().handle)
+router.post('/usuario',estaAutenticado, new ControleCadastroUsuario().handle)
 router.post("/login", new ControleLoginUsuario().handle) 
 router.put("/usuario", estaAutenticado, usuarioAdministrador, new ControleEdicaoUsuario().handle)
 router.delete("/usuario", estaAutenticado, usuarioAdministrador, new ControleDelecaoUsuario().handle)
-
+router.get("/usuario", estaAutenticado, new ControleUsuario().handle)
 /*rotas do cliente */
 router.post("/cliente", estaAutenticado, new ControleCadastroCliente().handle)
 router.get("/cliente", estaAutenticado, new ControleListagemCliente().handle)
@@ -58,10 +56,10 @@ router.put("/cliente", estaAutenticado, new ControleEdicaoCliente().handle)
 /*rota marca*/
 router.post("/marca", estaAutenticado, usuarioAdministrador, new ControleCadastroMarca().handle) 
 router.post("/marca/categoria", estaAutenticado, usuarioAdministrador, new ControleCadastroCategoriaMarca().handle)
-router.get("/marca/categoria", estaAutenticado, new ControleListarMarcaCategoria().handle)
+router.get("/marca/:cod_categoria", estaAutenticado, new ControleListarMarcaCategoria().handle)
 /*rotas categoria */
-router.post("/categoria", estaAutenticado, usuarioAdministrador, new ControleCriarCategoria().handle)
-router.get("/categoria", estaAutenticado, usuarioAdministrador, new ControleListagemCategorias().handle)
+router.post("/categoria", estaAutenticado, new ControleCriarCategoria().handle)
+router.get("/categoria", estaAutenticado, new ControleListagemCategorias().handle)
 router.put("/categoria", estaAutenticado, usuarioAdministrador, new ControleEdicaoCategoria().handle)
 
 /*rotas produto*/
@@ -70,14 +68,12 @@ router.get("/produto/:cod_categoria", estaAutenticado, new ControleListagemProdu
 router.put("/produto", estaAutenticado, usuarioAdministrador, new ControleEdicaoProduto().handle)
 router.delete("/produto", estaAutenticado, usuarioAdministrador, new ControleExcluirProduto().handle)
 router.get("/estoque", estaAutenticado, new ControleListagemProdutoEstoque().handle)
-
+ 
 /*rotas fornecedor*/
-router.post("/fornecedor", estaAutenticado, usuarioAdministrador, new ControleCadastroFornecedor().handle)
+router.post("/fornecedor", estaAutenticado, new ControleCadastroFornecedor().handle)
 router.get("/fornecedor", estaAutenticado, new ControleListarFornecedor().handle)
 router.put("/fornecedor", estaAutenticado, usuarioAdministrador, new ControleEdicaoFornecedor().handle)
-router.post("/fornecedor/produto", estaAutenticado, usuarioAdministrador, new ControleCadastroProdutosFornecedor().handle)
-router.get("/fornecedor/produtos", estaAutenticado, new ControleListarProdutoFornecedor().handle)
-router.get('/produto/fornecedores/:cod_produto', estaAutenticado, new ControleListarFornecedorProduto().handle)
+
 
 /*rotas compra*/
 router.post("/compra", estaAutenticado, new ControleRealizarCompra().handle)
@@ -87,7 +83,7 @@ router.put("/compra/concluir", estaAutenticado, new ControleFinalizarCompra().ha
 /*rotas venda*/
 
 router.post("/venda", estaAutenticado, new ControleInstanciarVenda().handle)
-router.post("/venda/add", estaAutenticado, new ControleAdicionarItemVenda().handle)
+router.post("/venda/:cod_compra", estaAutenticado, new ControleAdicionarItemVenda().handle)
 router.put("/venda/concluir", estaAutenticado, new ControleFinalizarVenda().handle)
 router.delete("/venda/deleteItem",estaAutenticado, new ControleExcluirItemVenda().handle)
 router.delete("/venda", estaAutenticado, new ControleExcluirVenda().handle)

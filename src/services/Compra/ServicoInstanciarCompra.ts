@@ -1,14 +1,17 @@
 import prismaClient from "../../prisma/prismaClient";
-
+type fornecedor={
+    cod_fornecedor?: string
+}
 class ServicoInstanciarCompra{
-    async execute(cod_fornecedor: string){
+    async execute(){
+        const vl_total = 0
         const compra = await prismaClient.compra.create({
             data:{
-                cod_fornecedor: cod_fornecedor
+                vl_total: 0
             }
         })
 
-        return compra
+        return compra 
     }
 }
 

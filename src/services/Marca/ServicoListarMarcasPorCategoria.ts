@@ -6,10 +6,14 @@ class ServicoListarMarcasPorCategoria{
         const marcas = await prismaClient.marcaCategoria.findMany({
             where:{
                 cod_categoria: cod_categoria
+            }, 
+            select:{
+
+                marca: true
             }
         })
-
-
+       
+       
         return marcas
     }
 }

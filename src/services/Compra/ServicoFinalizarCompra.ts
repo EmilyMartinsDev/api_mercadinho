@@ -1,11 +1,11 @@
 import prismaClient from "../../prisma/prismaClient";
 
 type ConcluirCompra = {
-    vl_produto: number, cod_compra: string
+    vl_produto: number, cod_compra: string, cod_fornecedor: string
 }
 
 class ServicoFinalizarCompra{
-    async execute({vl_produto, cod_compra}: ConcluirCompra){
+    async execute({vl_produto, cod_compra, cod_fornecedor}: ConcluirCompra){
        
         const produtosComprados =  await prismaClient.itemCompra.findMany({
             where: {
@@ -25,9 +25,16 @@ class ServicoFinalizarCompra{
             },
             data:{
                 vl_total: vl_total,
+                cod_fornecedor: cod_fornecedor
             },
             include:{
-                itemCompra: true
+                itemCompra: true,
+                fornecedor: {
+                    select:{
+                        cod: true,
+                        nome: true
+                    }
+                }
             }
         })
 

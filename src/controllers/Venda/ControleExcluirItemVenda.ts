@@ -4,10 +4,10 @@ import { Request, Response } from "express";
 
 class ControleExcluirItemVenda{
     async handle(req:Request, res:Response){
-        const {cod_produto} = req.body
-        const cod_venda = req.query.cod_venda as string
+        const {cod_itemVenda} = req.body
+
         const servicoExcluirItem = new ServicoExcluirItemVenda()
-        const itemVenda = await servicoExcluirItem.execute({cod_venda,cod_produto})
+        const itemVenda = await servicoExcluirItem.execute({cod_itemVenda})
     
     return res.json(itemVenda)
     }

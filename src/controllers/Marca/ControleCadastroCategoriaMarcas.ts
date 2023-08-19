@@ -3,11 +3,11 @@ import { ServicoCadastroCategoriaMarcas } from "../../services/Marca/ServicoCada
 
 class ControleCadastroCategoriaMarca {
     async handle(req: Request, res: Response){
-        const cod_categoria = req.query.cod_categoria as string
-        const {cod_marcas} = req.body
+     
+        const {cod_marca, cod_categoria} = req.body
 
         const servicoCadastroCategoriaMarca = new ServicoCadastroCategoriaMarcas()
-        const resultado = await servicoCadastroCategoriaMarca.execute({cod_categoria, cod_marcas})
+        const resultado = await servicoCadastroCategoriaMarca.execute({cod_categoria, cod_marca})
 
         return res.json(resultado)
     }

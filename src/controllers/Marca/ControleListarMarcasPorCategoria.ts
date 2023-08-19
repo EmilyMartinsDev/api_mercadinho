@@ -3,7 +3,7 @@ import { ServicoListarMarcasPorCategoria } from "../../services/Marca/ServicoLis
 
 class ControleListarMarcaCategoria {
     async handle(req: Request, res: Response){
-        const {cod_categoria} = req.body
+        const cod_categoria = req.query.cod_categoria as string
         const servicoListarMarcaPorCategoria = new ServicoListarMarcasPorCategoria()
         const marcas = await servicoListarMarcaPorCategoria.execute({cod_categoria})
 

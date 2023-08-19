@@ -24,7 +24,11 @@ class ServicoCadastroMarca{
         data:{
             nome: nome,
             
-            }
+            },
+           select:{
+            cod: true,
+            nome: true
+           }
 
         },
       );

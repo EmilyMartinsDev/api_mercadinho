@@ -4,10 +4,10 @@ import { ServicoCriarItemCompra } from "../../services/Compra/ServicoCriarItemCo
 
 class ControleAdicionarItemCompra{
     async handle(req:Request, res:Response){
-        const {cod_produto, qt_produto} = req.body
-        const cod_compra = req.query.cod_compra as string
+        const {cod_produto, qt_produto, vl_produto_compra,cod_compra } = req.body
+       
         const servicoAddItem = new ServicoCriarItemCompra()
-        const itemCompra = await servicoAddItem.execute({cod_compra,cod_produto,qt_produto:parseInt(qt_produto)})
+        const itemCompra = await servicoAddItem.execute({cod_compra,cod_produto,qt_produto, vl_produto_compra})
     
     return res.json(itemCompra)
     }

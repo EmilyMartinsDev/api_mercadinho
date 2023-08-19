@@ -10,12 +10,29 @@ CREATE TABLE "Cliente" (
 );
 
 -- CreateTable
+CREATE TABLE "MarcaCategoria" (
+    "cod_marca" TEXT NOT NULL,
+    "cod_categoria" TEXT NOT NULL,
+
+    CONSTRAINT "MarcaCategoria_pkey" PRIMARY KEY ("cod_marca","cod_categoria")
+);
+
+-- CreateTable
+CREATE TABLE "Marca" (
+    "cod" TEXT NOT NULL,
+    "nome" TEXT NOT NULL,
+
+    CONSTRAINT "Marca_pkey" PRIMARY KEY ("cod")
+);
+
+-- CreateTable
 CREATE TABLE "Produto" (
     "cod" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "qt_estoque" INTEGER NOT NULL DEFAULT 0,
     "vl_produto" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "cod_categoria" TEXT NOT NULL,
+    "cod_marca" TEXT NOT NULL,
     "data_criacao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "data_uptade" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -45,6 +62,7 @@ CREATE TABLE "Venda" (
 
 -- CreateTable
 CREATE TABLE "ItemVenda" (
+    "cod" TEXT NOT NULL,
     "qt_produto" INTEGER NOT NULL,
     "vl_total_item" DOUBLE PRECISION,
     "cod_venda" TEXT NOT NULL,
@@ -52,7 +70,7 @@ CREATE TABLE "ItemVenda" (
     "data_criacao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "data_uptade" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "ItemVenda_pkey" PRIMARY KEY ("cod_venda","cod_produto")
+    CONSTRAINT "ItemVenda_pkey" PRIMARY KEY ("cod")
 );
 
 -- CreateTable
@@ -93,6 +111,7 @@ CREATE TABLE "FornecedorProduto" (
 
 -- CreateTable
 CREATE TABLE "ItemCompra" (
+    "cod" TEXT NOT NULL,
     "qt_produto" INTEGER NOT NULL,
     "vl_total_item" DOUBLE PRECISION,
     "cod_compra" TEXT NOT NULL,
@@ -100,7 +119,7 @@ CREATE TABLE "ItemCompra" (
     "data_criacao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "data_uptade" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "ItemCompra_pkey" PRIMARY KEY ("cod_compra","cod_produto")
+    CONSTRAINT "ItemCompra_pkey" PRIMARY KEY ("cod")
 );
 
 -- CreateTable
@@ -115,7 +134,16 @@ CREATE TABLE "Compra" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Produto_nome_key" ON "Produto"("nome");
+CREATE UNIQUE INDEX "Marca_nome_key" ON "Marca"("nome");
+
+-- AddForeignKey
+ALTER TABLE "MarcaCategoria" ADD CONSTRAINT "MarcaCategoria_cod_categoria_fkey" FOREIGN KEY ("cod_categoria") REFERENCES "Categoria"("cod") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MarcaCategoria" ADD CONSTRAINT "MarcaCategoria_cod_marca_fkey" FOREIGN KEY ("cod_marca") REFERENCES "Marca"("cod") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Produto" ADD CONSTRAINT "Produto_cod_marca_fkey" FOREIGN KEY ("cod_marca") REFERENCES "Marca"("cod") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Produto" ADD CONSTRAINT "Produto_cod_categoria_fkey" FOREIGN KEY ("cod_categoria") REFERENCES "Categoria"("cod") ON DELETE RESTRICT ON UPDATE CASCADE;
